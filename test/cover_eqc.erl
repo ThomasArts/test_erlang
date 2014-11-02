@@ -19,8 +19,7 @@ compile() ->
   case Options of 
     false -> os:putenv("ERL_COMPILER_OPTIONS","[]");
     _ -> os:putenv("ERL_COMPILER_OPTIONS",Options)
-  end,
-  compile:file("cover.erl",[{parse_transform,eqc_cover}]).
+  end.
 
 
 prop_cover() ->
