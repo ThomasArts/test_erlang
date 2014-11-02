@@ -1,0 +1,4 @@
+*.beam
+.eqc-info
+current_counterexample.eqc
+myerlangprog.*
