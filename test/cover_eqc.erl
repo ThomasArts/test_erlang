@@ -22,7 +22,8 @@ compile() ->
   case Options of 
     false -> os:putenv("ERL_COMPILER_OPTIONS","[]");
     _ -> os:putenv("ERL_COMPILER_OPTIONS",Options)
-  end.
+  end,
+  timer:sleep(1000).
 
 
 prop_cover() ->
