@@ -15,7 +15,8 @@ compile() ->
   io:format("Cover is found at ~p\n",[Path]),
   Options = os:getenv("ERL_COMPILER_OPTIONS"),
   os:putenv("ERL_COMPILER_OPTIONS","[]"),
-  compile:file(Path, ['P']),  %% compile with parse_transform
+  Res = (catch compile:file(Path, ['P'])),  %% compile with parse_transform
+  io:format("Compile result: ~p\n",[Res]),
   io:format("Directory contains: ~p\n",[file:list_dir(".")]),
   ok = file:rename("cover.P","cover.erl"),
   case Options of 
