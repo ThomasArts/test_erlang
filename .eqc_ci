@@ -1,3 +1,3 @@
-{build, "cd test; erl -make"}.
+{build, "cd test; erl -make; erl -s cover_eqc compile -s erlang halt"}.
 {test_path, "test"}.
-{test_root, ""}.
+{test_root, "test"}.
