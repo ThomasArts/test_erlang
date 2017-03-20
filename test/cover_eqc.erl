@@ -13,18 +13,8 @@
 compile() ->
   {Path,_} = filename:find_src(cover),
   io:format("Cover is found at ~p\n",[Path]),
-  Options = os:getenv("ERL_COMPILER_OPTIONS"),
-  os:putenv("ERL_COMPILER_OPTIONS","[]"),
-  Res = (catch compile:file(Path, ['P'])),  %% compile with parse_transform
-  io:format("Compile result: ~p\n",[Res]),
-  io:format("Directory contains: ~p\n",[file:list_dir(".")]),
-  ok = file:rename("cover.P","cover.erl"),
-  case Options of 
-    false -> os:putenv("ERL_COMPILER_OPTIONS","[]");
-    _ -> os:putenv("ERL_COMPILER_OPTIONS",Options)
-  end,
-  timer:sleep(1000).
-
+  {ok, _BytesCopied} = file:copy(Path ++ ".erl", "cover.erl"),
+  io:format("Directory contains: ~p\n",[file:list_dir(".")]).
 
 prop_cover() ->
   ?FORALL(Code, eqc_erlang_program:module(?TEST_MODULE,[{maps,true},{macros,true}]),
