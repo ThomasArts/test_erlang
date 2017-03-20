@@ -7,16 +7,15 @@
 
 -define(TEST_MODULE, myerlangprog).
 
-%% Cover compile cover with eqc_cover
-%% Tricky, since cover.erl has its own parse transform
-
 compile() ->
   {Path,_} = filename:find_src(cover),
   io:format("Cover is found at ~p\n",[Path]),
   {ok, _BytesCopied} = file:copy(Path ++ ".erl", "cover.erl"),
   io:format("Directory contains: ~p\n",[file:list_dir(".")]).
 
+%% Run 50 random Erlang programs to see if cover.erl can instrument them
 prop_cover() ->
+  numtests(50, 
   ?FORALL(Code, eqc_erlang_program:module(?TEST_MODULE,[{maps,true},{macros,true}]),
 	  begin
 	    File = lists:concat([?TEST_MODULE, ".erl"]),
@@ -25,4 +24,4 @@ prop_cover() ->
 	    Expected = {ok, ?TEST_MODULE},
 	    ?WHENFAIL(eqc:format("~s\n", [Code]),
 		      equals(Res, Expected))
-	  end).
+	  end)).
